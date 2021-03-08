@@ -25,6 +25,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a"
 
 [[package]]
+name = "aws-credentials-switcher"
+version = "0.1.1"
+dependencies = [
+ "dirs",
+ "exitcode",
+ "rust-ini",
+]
+
+[[package]]
 name = "base64"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -58,15 +67,6 @@ name = "constant_time_eq"
 version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "245097e9a4535ee1e3e3931fcfcd55a796a44c643e8596ff6566d68f09b87bbc"
-
-[[package]]
-name = "credentials-switcher"
-version = "0.1.0"
-dependencies = [
- "dirs",
- "exitcode",
- "rust-ini",
-]
 
 [[package]]
 name = "crossbeam-utils"

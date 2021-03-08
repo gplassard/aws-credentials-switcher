@@ -1,6 +1,6 @@
 [package]
-name = "credentials-switcher"
-version = "0.1.0"
+name = "aws-credentials-switcher"
+version = "0.1.1"
 authors = ["Gabriel Plassard <gabriel.plassard@gmail.com>"]
 edition = "2018"
 
