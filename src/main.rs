@@ -9,7 +9,6 @@ use exitcode;
 
 fn main() {
     let home = dirs::home_dir().expect("Can't get home directory");
-    let credentials = get_credentials().expect("Can't retrieve current credentials from aws config file");
     let aws = home.join(".aws");
     let aws_v1 = home.join(".aws.v1");
     let aws_v2 = home.join(".aws.v2");
@@ -20,15 +19,30 @@ fn main() {
     }
 
     let args: Vec<String> = env::args().collect();
+    if args.len() != 2 {
+        eprintln!("Unrecognized command expected use-v1 / use-v2");
+        process::exit(1);
+    }
+
     let command = args[1].as_str();
 
     if command == "use-v1" {
+        println!("Retrieving credentials from {}", aws.to_str().unwrap());
+        let credentials = get_credentials().expect("Can't retrieve current credentials from aws config file");
+        println!("Copying {} to {}", aws_v1.to_str().unwrap(), aws.to_str().unwrap());
         replace_directory_with(aws.as_path(), aws_v1.as_path()).unwrap();
+        println!("Updating credentials");
         set_credentials(credentials);
+        println!("Success !");
     }
     else if command == "use-v2" {
+        println!("Retrieving credentials from {}", aws.to_str().unwrap());
+        let credentials = get_credentials().expect("Can't retrieve current credentials from aws config file");
+        println!("Copying {} to {}", aws_v2.to_str().unwrap(), aws.to_str().unwrap());
         replace_directory_with(aws.as_path(), aws_v2.as_path()).unwrap();
+        println!("Updating credentials");
         set_credentials(credentials);
+        println!("Success !");
     }
     else {
         eprintln!("Unrecognized command {} expected use-v1 / use-v2", command);
@@ -60,7 +74,7 @@ fn get_credentials() -> Option<AWSCredentials> {
         } )
 }
 
-fn set_credentials(creds: AWSCredentials) -> Option<()> {
+fn set_credentials(creds: AWSCredentials) -> Option<io::Result<()>> {
     dirs::home_dir()
         .map(|home| home.as_path().join(".aws").join("credentials"))
         .and_then(|p| p.to_str().map(|s| s.to_string()))
@@ -68,7 +82,7 @@ fn set_credentials(creds: AWSCredentials) -> Option<()> {
         .map(|mut credentials| {
             credentials.set_to(Some("default"), "aws_access_key_id".to_string(), creds.access_key);
             credentials.set_to(Some("default"), "aws_secret_access_key".to_string(), creds.secret_key);
-            ();
+            credentials.write_to_file( dirs::home_dir().unwrap().as_path().join(".aws").join("credentials"))
         })
 }
 
