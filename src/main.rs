@@ -24,9 +24,11 @@ fn main() {
 
     if command == "use-v1" {
         replace_directory_with(aws.as_path(), aws_v1.as_path()).unwrap();
+        set_credentials(credentials);
     }
     else if command == "use-v2" {
         replace_directory_with(aws.as_path(), aws_v2.as_path()).unwrap();
+        set_credentials(credentials);
     }
     else {
         eprintln!("Unrecognized command {} expected use-v1 / use-v2", command);
@@ -58,7 +60,33 @@ fn get_credentials() -> Option<AWSCredentials> {
         } )
 }
 
-fn replace_directory_with(old: &Path, new: &Path) -> io::Result<u64> {
+fn set_credentials(creds: AWSCredentials) -> Option<()> {
+    dirs::home_dir()
+        .map(|home| home.as_path().join(".aws").join("credentials"))
+        .and_then(|p| p.to_str().map(|s| s.to_string()))
+        .map(|p| Ini::load_from_file(p).expect("Ini parse error"))
+        .map(|mut credentials| {
+            credentials.set_to(Some("default"), "aws_access_key_id".to_string(), creds.access_key);
+            credentials.set_to(Some("default"), "aws_secret_access_key".to_string(), creds.secret_key);
+            ();
+        })
+}
+
+fn replace_directory_with(old: &Path, new: &Path) -> io::Result<()> {
     fs::remove_dir_all(old)
-        .and_then(|_| fs::copy(new, old))
+        .and_then(|_| copy_dir_all(new, old))
+}
+
+fn copy_dir_all(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> io::Result<()> {
+    fs::create_dir_all(&dst)?;
+    for entry in fs::read_dir(src)? {
+        let entry = entry?;
+        let ty = entry.file_type()?;
+        if ty.is_dir() {
+            copy_dir_all(entry.path(), dst.as_ref().join(entry.file_name()))?;
+        } else {
+            fs::copy(entry.path(), dst.as_ref().join(entry.file_name()))?;
+        }
+    }
+    Ok(())
 }
