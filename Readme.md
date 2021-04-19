@@ -26,6 +26,7 @@ The commands will
 
 ## Commands
 
+* `aws-credentials-switcher help`
 * `aws-credentials-switcher use-v1`
 * `aws-credentials-switcher use-v2`
 
