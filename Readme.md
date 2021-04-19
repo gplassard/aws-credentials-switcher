@@ -35,4 +35,4 @@ The commands will
 * Update changelog
 * `git commit -m 'Release(v1.2.0)'`
 * `git tag v1.2.0`
-* `git push --follow-tags`
+* `git push --tags`
