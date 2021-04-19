@@ -80,8 +80,15 @@ fn set_credentials(creds: AWSCredentials) -> Option<io::Result<()>> {
         .and_then(|p| p.to_str().map(|s| s.to_string()))
         .map(|p| Ini::load_from_file(p).expect("Ini parse error"))
         .map(|mut credentials| {
-            credentials.set_to(Some("default"), "aws_access_key_id".to_string(), creds.access_key);
-            credentials.set_to(Some("default"), "aws_secret_access_key".to_string(), creds.secret_key);
+
+            credentials.mut_iter()
+                .filter(|(_, prop)| prop.contains_key("aws_access_key_id"))
+                .for_each(|(section_name, prop) | {
+                    println!("Setting access_key / secret_key for profile {:?}", section_name);
+                    prop.insert("aws_access_key_id".to_string(), creds.access_key.clone());
+                    prop.insert("aws_secret_access_key".to_string(), creds.secret_key.clone());
+                });
+
             credentials.write_to_file( dirs::home_dir().unwrap().as_path().join(".aws").join("credentials"))
         })
 }
