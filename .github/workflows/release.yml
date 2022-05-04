@@ -69,3 +69,5 @@ jobs:
       with:
         commit_message: Update changelog
         file_pattern: CHANGELOG.md
+        branch: master
+        pushoptions: ''
