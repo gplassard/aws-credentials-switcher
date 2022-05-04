@@ -50,6 +50,7 @@ commit_parsers = [
     { message = "^chore", group = "Miscellaneous Tasks"},
     { body = ".*security", group = "Security"},
     { message = "^'?Release", skip = true},
+    { message = "^Update changelog", skip = true},
     { message = ".*", group = "Miscellaneous Tasks"},
 ]
 # filter out the commits that are not matched by commit parsers
