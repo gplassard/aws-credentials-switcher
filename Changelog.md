@@ -2,16 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.5] - 2022-05-04
+
+### Documentation
+
+- Remove changelog updates from changelog...
+
+### Features
+
+- Add release script
+
 ## [1.5.4] - 2022-05-04
 
 ### Documentation
 
 - Fix changelog creation ?
-
-### Miscellaneous Tasks
-
-- Update changelog
-
 
 ## [1.5.3] - 2022-05-04
 
@@ -19,11 +24,6 @@ All notable changes to this project will be documented in this file.
 
 - Fix files
 - Fix files
-
-### Miscellaneous Tasks
-
-- Update changelog
-
 
 ## [1.5.2] - 2022-05-04
 
