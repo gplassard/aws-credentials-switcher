@@ -77,7 +77,7 @@ fn set_credentials(creds: AWSCredentials) -> Option<io::Result<()>> {
         .map(|p| Ini::load_from_file(p).expect("Ini parse error"))
         .map(|mut credentials| {
 
-            credentials.mut_iter()
+            credentials.iter_mut()
                 .filter(|(_, prop)| prop.contains_key("aws_access_key_id"))
                 .for_each(|(section_name, prop) | {
                     info!("Setting access_key / secret_key for profile {:?}", section_name);

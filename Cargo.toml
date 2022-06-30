@@ -2,14 +2,14 @@
 name = "aws-credentials-switcher"
 version = "1.5.5" # managed by release.sh
 authors = ["Gabriel Plassard <gabriel.plassard@gmail.com>"]
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-dirs = "3.0.2"
-rust-ini = "0.16.1"
+dirs = "4.0.0"
+rust-ini = "0.18.0"
 exitcode = "1.1.2"
 structopt = "0.3.26"
 log = "0.4.16"
-env_logger = "0.8.4"
+env_logger = "0.9.0"
