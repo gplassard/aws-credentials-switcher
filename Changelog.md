@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.0] - 2022-06-30
+
+### Miscellaneous Tasks
+
+- Bump dependencies
+
 ## [1.5.5] - 2022-05-04
 
 ### Documentation
