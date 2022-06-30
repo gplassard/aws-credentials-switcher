@@ -1,6 +1,6 @@
 [package]
 name = "aws-credentials-switcher"
-version = "1.5.5" # managed by release.sh
+version = "1.6.0" # managed by release.sh
 authors = ["Gabriel Plassard <gabriel.plassard@gmail.com>"]
 edition = "2021"
 
