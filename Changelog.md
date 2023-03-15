@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.0] - 2023-03-15
+
+### Features
+
+- Add support for v3 config file
+
 ## [1.6.1] - 2022-10-05
 
 ### Miscellaneous Tasks
