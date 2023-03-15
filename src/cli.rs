@@ -17,7 +17,8 @@ pub struct Cli {
 #[derive(StructOpt)]
 pub enum Command {
     UseV1,
-    UseV2
+    UseV2,
+    UseV3
 }
 
 fn level_filters() -> [&'static str; 6] {

@@ -21,18 +21,20 @@ fn main() {
     let aws = home.join(".aws");
     let aws_v1 = home.join(".aws.v1");
     let aws_v2 = home.join(".aws.v2");
+    let aws_v3 = home.join(".aws.v3");
 
     let cli = Cli::from_args();
     Builder::new().filter_level(cli.log_level).init();
 
-    if !aws.is_dir() || !aws_v1.is_dir() || !aws_v2.is_dir() {
+    if !aws.is_dir() || !aws_v1.is_dir() || !aws_v2.is_dir() || !aws_v3.is_dir() {
         error!("Can't find .aws, .aws.v1, and .aws.v2 directories in users home");
         process::exit(exitcode::CONFIG);
     }
 
     match cli.command {
         Command::UseV1 => switch(aws, aws_v1),
-        Command::UseV2 => switch(aws, aws_v2)
+        Command::UseV2 => switch(aws, aws_v2),
+        Command::UseV3 => switch(aws, aws_v3)
     }
 }
 
