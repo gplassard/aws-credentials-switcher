@@ -27,7 +27,7 @@ fn main() {
     Builder::new().filter_level(cli.log_level).init();
 
     if !aws.is_dir() || !aws_v1.is_dir() || !aws_v2.is_dir() || !aws_v3.is_dir() {
-        error!("Can't find .aws, .aws.v1, and .aws.v2 directories in users home");
+        error!("Can't find .aws, .aws.v1, .aws.v2, and .aws.v3 directories in users home");
         process::exit(exitcode::CONFIG);
     }
 
