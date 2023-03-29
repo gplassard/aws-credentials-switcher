@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7.1] - 2023-03-29
+
+### Bug Fixes
+
+- Fix logging message
+
+### Miscellaneous Tasks
+
+- Update deps
+
 ## [1.7.0] - 2023-03-15
 
 ### Features
