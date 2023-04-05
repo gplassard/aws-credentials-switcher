@@ -1,0 +1,84 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    devDependencies:
+      '@gplassard/projen-extensions':
+        specifier: ^0.0.104
+        version: 0.0.104
+      projen:
+        specifier: ^0.84.4
+        version: 0.84.4(constructs@10.3.0)
+
+packages:
+
+  '@gplassard/projen-extensions@0.0.104':
+    resolution: {integrity: sha512-3F+0AXv8Nvjzbbzf44gHkYqj/JJN8D7AtA7B8bG+DpHKshCtbERENR7vDb0oYmTgE627ElvWv286FP8CBmMsQg==, tarball: https://npm.pkg.github.com/download/@gplassard/projen-extensions/0.0.104/7cb2057780cc64b8a99d1c2f91daf162ed6a6d26}
+
+  constructs@10.3.0:
+    resolution: {integrity: sha512-vbK8i3rIb/xwZxSpTjz3SagHn1qq9BChLEfy5Hf6fB3/2eFbrwt2n9kHwQcS0CPTRBesreeAcsJfMq2229FnbQ==}
+    engines: {node: '>= 16.14.0'}
+
+  projen@0.82.8:
+    resolution: {integrity: sha512-/YpYZf4g0/pck2tr34a4gpOveCV1xbCfdDT+H4Xq8qQzF0IbcDVsoV1kZXPcyzVWUyqHFT2/ORUeocV+Hka8tQ==}
+    engines: {node: '>= 16.0.0'}
+    hasBin: true
+    peerDependencies:
+      constructs: ^10.0.0
+    bundledDependencies:
+      - '@iarna/toml'
+      - case
+      - chalk
+      - comment-json
+      - conventional-changelog-config-spec
+      - fast-json-patch
+      - glob
+      - ini
+      - semver
+      - shx
+      - xmlbuilder2
+      - yaml
+      - yargs
+
+  projen@0.84.4:
+    resolution: {integrity: sha512-hlyBtIwc+As3KuiaSGQ5d0dVyE5Jc6SfnhIxyE1VqlgHvKpPVhvun+2gwH4CFtQyxjEGh4bHoU/aS7P5McqfGA==}
+    engines: {node: '>= 16.0.0'}
+    hasBin: true
+    peerDependencies:
+      constructs: ^10.0.0
+    bundledDependencies:
+      - '@iarna/toml'
+      - case
+      - chalk
+      - comment-json
+      - conventional-changelog-config-spec
+      - fast-json-patch
+      - glob
+      - ini
+      - semver
+      - shx
+      - xmlbuilder2
+      - yaml
+      - yargs
+
+snapshots:
+
+  '@gplassard/projen-extensions@0.0.104':
+    dependencies:
+      constructs: 10.3.0
+      projen: 0.82.8(constructs@10.3.0)
+
+  constructs@10.3.0: {}
+
+  projen@0.82.8(constructs@10.3.0):
+    dependencies:
+      constructs: 10.3.0
+
+  projen@0.84.4(constructs@10.3.0):
+    dependencies:
+      constructs: 10.3.0

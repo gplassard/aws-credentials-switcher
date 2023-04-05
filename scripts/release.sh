@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
+set -ex
 
-# takes the tag as an argument (e.g. v0.1.0)
 if [ -n "$1" ]; then
+    yarn install --frozen-lockfile
     # update the version
-    msg="# managed by release.sh"
-    sed -i "" -e "s/^version = .* $msg$/version = \"${1#v}\" $msg/" Cargo.toml
+    yarn version --$1
+    yarn projen
     # will update Cargo.lock
     cargo check
 
-    git add -A && git commit -m "chore(release): prepare for $1"
+    version=$(npm pkg get version | sed -e "s/\"//g")
+    git add -A && git commit -m "chore(release): release v$version"
     # generate a changelog for the tag message
-    git tag "$1"
+    git tag v$version
 else
-    echo "warn: please provide a tag"
+    echo "warn: please provide a version bump (patch/minor/major)"
     exit 1
 fi
