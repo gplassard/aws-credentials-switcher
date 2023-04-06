@@ -1,11 +1,12 @@
 const { RustProject } = require('@gplassard/projen-extensions');
+const package = require('./package.json');
 
 const project = new RustProject({
     name: 'aws-credentials-switcher',
     cargo: {
         package: {
             authors: ["Gabriel Plassard <gabriel.plassard@gmail.com>"],
-            version: '1.7.1',
+            version: package.version,
             edition: "2021",
         },
         dependencies: {

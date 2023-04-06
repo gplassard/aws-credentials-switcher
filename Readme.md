@@ -34,5 +34,5 @@ The commands will
 
 ## Release
 
-* `./scripts/release.sh v1.5.5`
-* `git push && git push --tags`
+* ./scripts/release.sh <fix/minor/major>
+* git push --follow-tags
