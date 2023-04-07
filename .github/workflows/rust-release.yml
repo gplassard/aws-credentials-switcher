@@ -2,6 +2,12 @@
 
 name: release
 on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
   push:
     tags:
       - v*
@@ -29,8 +35,7 @@ jobs:
       - name: Set the release body
         id: release
         shell: bash
-        run: "|
-
+        run: "
           \                  r=$(cat ${{ steps.git-cliff.outputs.changelog }})
 
           \                  r=\"${r//'%'/'%25'}\"     # Multiline escape sequences for %
