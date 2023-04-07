@@ -18,6 +18,30 @@ jobs:
         run: cargo build --release
       - name: Tests
         run: cargo test --verbose
+      - name: Generate a changelog for current release
+        uses: orhun/git-cliff-action@v1
+        id: git-cliff
+        with:
+          config: cliff.toml
+          args: -vv --latest --strip header
+        env:
+          OUTPUT: CHANGES.md
+      - name: Set the release body
+        id: release
+        shell: bash
+        run: "|
+
+          \                  r=$(cat ${{ steps.git-cliff.outputs.changelog }})
+
+          \                  r=\"${r//'%'/'%25'}\"     # Multiline escape sequences for %
+
+          \                  r=\"${r//$'\\n'/'%0A'}\"   # Multiline escape sequences for '\\n'
+
+          \                  r=\"${r//$'\\r'/'%0D'}\"   # Multiline escape sequences for '\\r'
+
+          \                  echo \"::set-output name=RELEASE_BODY::$r\"
+
+          \                "
       - name: Create release
         id: create-release
         uses: actions/create-release@v1
@@ -39,3 +63,17 @@ jobs:
           asset_path: target/release/aws-credentials-switcher
           asset_name: aws-credentials-switcher
           asset_content_type: application/zip
+      - name: Generate full changelog
+        uses: orhun/git-cliff-action@v1
+        with:
+          config: cliff.toml
+          args: --verbose
+        env:
+          OUTPUT: Changelog.md
+      - name: Commit changelog file
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update changelog
+          file_pattern: Changelog.md
+          branch: main
+          push_options: ""
