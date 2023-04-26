@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.1] - 2023-04-26
+
+### Bug Fixes
+
+- Fix release workflow
+
+## [1.8.0] - 2023-04-26
+
+### Features
+
+- Don't crash on empty credentials
+
+### Styling
+
+- Rename workflow file ([#2](https://github.com/orhun/git-cliff/issues/2))
+
 ## [1.7.1] - 2023-03-29
 
 ### Bug Fixes
