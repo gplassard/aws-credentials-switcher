@@ -18,23 +18,16 @@ mod cli;
 
 fn main() {
     let home = dirs::home_dir().expect("Can't get home directory");
-    let aws = home.join(".aws");
-    let aws_v1 = home.join(".aws.v1");
-    let aws_v2 = home.join(".aws.v2");
-    let aws_v3 = home.join(".aws.v3");
 
     let cli = Cli::from_args();
     Builder::new().filter_level(cli.log_level).init();
 
-    if !aws.is_dir() || !aws_v1.is_dir() || !aws_v2.is_dir() || !aws_v3.is_dir() {
-        error!("Can't find .aws, .aws.v1, .aws.v2, and .aws.v3 directories in users home");
-        process::exit(exitcode::CONFIG);
-    }
-
     match cli.command {
-        Command::UseV1 => switch(aws, aws_v1),
-        Command::UseV2 => switch(aws, aws_v2),
-        Command::UseV3 => switch(aws, aws_v3)
+        Command::Use { alternative } => {
+            let aws = home.join(".aws");
+            let alt_dir = home.join(".aws".to_owned() + &alternative);
+            switch(aws, alt_dir)
+        },
     }
 }
 
@@ -46,7 +39,7 @@ struct AWSCredentials {
 
 fn switch(default: PathBuf, replace: PathBuf) -> () {
     info!("Retrieving credentials from {}", default.to_str().unwrap());
-    let credentials = get_credentials();
+    let credentials = get_credentials(&default);
     info!("Copying {} to {}", replace.to_str().unwrap(), default.to_str().unwrap());
     replace_directory_with(default.as_path(), replace.as_path()).unwrap();
     match credentials {
@@ -61,9 +54,9 @@ fn switch(default: PathBuf, replace: PathBuf) -> () {
     info!("Success !");
 }
 
-fn get_credentials() -> Option<AWSCredentials> {
-    dirs::home_dir()
-        .map(|home| home.as_path().join(".aws").join("credentials") )
+fn get_credentials(path: &PathBuf) -> Option<AWSCredentials> {
+
+    path.join("credentials")
         .and_then(|p| p.to_str().map(|s| s.to_string()))
         .map(|p| Ini::load_from_file(p).expect("Ini parse error"))
         .and_then( |credentials| {
