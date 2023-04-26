@@ -46,11 +46,18 @@ struct AWSCredentials {
 
 fn switch(default: PathBuf, replace: PathBuf) -> () {
     info!("Retrieving credentials from {}", default.to_str().unwrap());
-    let credentials = get_credentials().expect("Can't retrieve current credentials from aws config file");
+    let credentials = get_credentials();
     info!("Copying {} to {}", replace.to_str().unwrap(), default.to_str().unwrap());
     replace_directory_with(default.as_path(), replace.as_path()).unwrap();
-    info!("Updating credentials");
-    set_credentials(credentials);
+    match credentials {
+        Some(c) => {
+            info!("Updating credentials");
+            set_credentials(c);
+        }
+        None => {
+            info!("No credentials were found, skipping credentials update");
+        }
+    }
     info!("Success !");
 }
 
