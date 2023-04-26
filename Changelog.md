@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8.4] - 2023-04-26
+
+### Bug Fixes
+
+- Fix changelog links
+
 ## [1.8.1] - 2023-04-26
 
 ### Bug Fixes
@@ -16,7 +22,7 @@ All notable changes to this project will be documented in this file.
 
 ### Styling
 
-- Rename workflow file ([#2](https://github.com/orhun/git-cliff/issues/2))
+- Rename workflow file ([#2](https://github.com/gplassard/aws-credentials-switcher/issues/2))
 
 ## [1.7.1] - 2023-03-29
 
