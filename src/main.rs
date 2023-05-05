@@ -1,13 +1,14 @@
+use std::collections::HashMap;
 use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
-use std::process;
+
 
 use dirs;
 use env_logger::Builder;
-use exitcode;
+
 use ini::Ini;
-use log::{error, info};
+use log::info;
 use structopt::StructOpt;
 
 use cli::Cli;
@@ -33,6 +34,7 @@ fn main() {
 
 #[derive(Debug)]
 struct AWSCredentials {
+    profile_name: Option<String>,
     access_key: String,
     secret_key: String,
 }
@@ -40,54 +42,66 @@ struct AWSCredentials {
 fn switch(default: PathBuf, replace: PathBuf) -> () {
     info!("Retrieving credentials from {}", default.to_str().unwrap());
     let credentials = get_credentials(&default);
+    if credentials.len() >= 1 {
+        let profile_names: Vec<String> = credentials.iter().map(|c| c.profile_name.unwrap_or("<no name>".to_string())).collect();
+        info!("Retrieved credentials for following profiles {}", profile_names.join(", "));
+    }
+    else {
+        info!("No credentials were found");
+    }
+
     info!("Copying {} to {}", replace.to_str().unwrap(), default.to_str().unwrap());
     replace_directory_with(default.as_path(), replace.as_path()).unwrap();
-    match credentials {
-        Some(c) => {
-            info!("Updating credentials");
-            set_credentials(c);
-        }
-        None => {
-            info!("No credentials were found, skipping credentials update");
-        }
-    }
+
+    restore_credentials(&default, credentials);
     info!("Success !");
 }
 
-fn get_credentials(path: &PathBuf) -> Option<AWSCredentials> {
-
-    path.join("credentials")
-        .and_then(|p| p.to_str().map(|s| s.to_string()))
+fn get_credentials(path: &PathBuf) -> Vec<AWSCredentials> {
+    path.join("credentials").to_str()
         .map(|p| Ini::load_from_file(p).expect("Ini parse error"))
-        .and_then( |credentials| {
-            let access_key = credentials.get_from(Some("default"), "aws_access_key_id");
-            let secret_key = credentials.get_from(Some("default"), "aws_secret_access_key");
-            match (access_key, secret_key) {
-                (Some(a), Some(b)) => Some(AWSCredentials {
-                    access_key: a.to_string(),
-                    secret_key: b.to_string()
-                }),
-                _ => None
-            }
-        } )
+        .into_iter()
+        .flat_map(|ini| {
+            ini.iter()
+                .filter_map(|(name, props)| {
+                    let access_key = props.get("aws_access_key_id");
+                    let secret_key = props.get("aws_secret_access_key");
+
+                    match (access_key, secret_key) {
+                        (Some(a), Some(b)) => Some(AWSCredentials {
+                            profile_name: name.map(|t| t.to_string()),
+                            access_key: a.to_string(),
+                            secret_key: b.to_string()
+                        }),
+                        _ => None
+                    }
+                })
+                .collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>()
 }
 
-fn set_credentials(creds: AWSCredentials) -> Option<io::Result<()>> {
-    dirs::home_dir()
-        .map(|home| home.as_path().join(".aws").join("credentials"))
-        .and_then(|p| p.to_str().map(|s| s.to_string()))
+fn restore_credentials(path: &PathBuf, creds: Vec<AWSCredentials>) -> Option<io::Result<()>> {
+    let indexed_credentials: HashMap<String, AWSCredentials> = creds.into_iter().map(|c| (c.profile_name.unwrap_or("".to_string()), c)).collect();
+
+    path.join("credentials").to_str()
         .map(|p| Ini::load_from_file(p).expect("Ini parse error"))
         .map(|mut credentials| {
 
             credentials.iter_mut()
                 .filter(|(_, prop)| prop.contains_key("aws_access_key_id"))
                 .for_each(|(section_name, prop) | {
-                    info!("Setting access_key / secret_key for profile {:?}", section_name);
-                    prop.insert("aws_access_key_id".to_string(), creds.access_key.clone());
-                    prop.insert("aws_secret_access_key".to_string(), creds.secret_key.clone());
+                    if let Some(cred) = indexed_credentials.get(section_name.unwrap_or("")) {
+                        info!("Setting access_key / secret_key for profile {:?}", section_name);
+                        prop.insert("aws_access_key_id".to_string(), cred.access_key.clone());
+                        prop.insert("aws_secret_access_key".to_string(), cred.secret_key.clone());
+                    }
+                    else {
+                        info!("No credentials to set for profile {:?}", section_name);
+                    }
                 });
 
-            credentials.write_to_file( dirs::home_dir().unwrap().as_path().join(".aws").join("credentials"))
+            credentials.write_to_file( path.join("credentials"))
         })
 }
 
