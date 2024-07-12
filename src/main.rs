@@ -32,7 +32,7 @@ fn main() {
     match cli.command {
         Command::UseV1 => switch(aws, aws_v1),
         Command::UseV2 => switch(aws, aws_v2),
-        Command::UseV3 => switch(aws, aws_v3)
+        Command::UseV3 => switch(aws, aws_v3),
     }
 }
 
@@ -45,7 +45,11 @@ struct AWSCredentials {
 fn switch(default: PathBuf, replace: PathBuf) {
     info!("Retrieving credentials from {}", default.to_str().unwrap());
     let credentials = get_credentials();
-    info!("Copying {} to {}", replace.to_str().unwrap(), default.to_str().unwrap());
+    info!(
+        "Copying {} to {}",
+        replace.to_str().unwrap(),
+        default.to_str().unwrap()
+    );
     replace_directory_with(default.as_path(), replace.as_path()).unwrap();
     match credentials {
         Some(c) => {
@@ -61,20 +65,20 @@ fn switch(default: PathBuf, replace: PathBuf) {
 
 fn get_credentials() -> Option<AWSCredentials> {
     dirs::home_dir()
-        .map(|home| home.as_path().join(".aws").join("credentials") )
+        .map(|home| home.as_path().join(".aws").join("credentials"))
         .and_then(|p| p.to_str().map(|s| s.to_string()))
         .map(|p| Ini::load_from_file(p).expect("Ini parse error"))
-        .and_then( |credentials| {
+        .and_then(|credentials| {
             let access_key = credentials.get_from(Some("default"), "aws_access_key_id");
             let secret_key = credentials.get_from(Some("default"), "aws_secret_access_key");
             match (access_key, secret_key) {
                 (Some(a), Some(b)) => Some(AWSCredentials {
                     access_key: a.to_string(),
-                    secret_key: b.to_string()
+                    secret_key: b.to_string(),
                 }),
-                _ => None
+                _ => None,
             }
-        } )
+        })
 }
 
 fn set_credentials(creds: AWSCredentials) -> Option<io::Result<()>> {
@@ -83,22 +87,33 @@ fn set_credentials(creds: AWSCredentials) -> Option<io::Result<()>> {
         .and_then(|p| p.to_str().map(|s| s.to_string()))
         .map(|p| Ini::load_from_file(p).expect("Ini parse error"))
         .map(|mut credentials| {
-
-            credentials.iter_mut()
+            credentials
+                .iter_mut()
                 .filter(|(_, prop)| prop.contains_key("aws_access_key_id"))
-                .for_each(|(section_name, prop) | {
-                    info!("Setting access_key / secret_key for profile {:?}", section_name);
+                .for_each(|(section_name, prop)| {
+                    info!(
+                        "Setting access_key / secret_key for profile {:?}",
+                        section_name
+                    );
                     prop.insert("aws_access_key_id".to_string(), creds.access_key.clone());
-                    prop.insert("aws_secret_access_key".to_string(), creds.secret_key.clone());
+                    prop.insert(
+                        "aws_secret_access_key".to_string(),
+                        creds.secret_key.clone(),
+                    );
                 });
 
-            credentials.write_to_file( dirs::home_dir().unwrap().as_path().join(".aws").join("credentials"))
+            credentials.write_to_file(
+                dirs::home_dir()
+                    .unwrap()
+                    .as_path()
+                    .join(".aws")
+                    .join("credentials"),
+            )
         })
 }
 
 fn replace_directory_with(old: &Path, new: &Path) -> io::Result<()> {
-    fs::remove_dir_all(old)
-        .and_then(|_| copy_dir_all(new, old))
+    fs::remove_dir_all(old).and_then(|_| copy_dir_all(new, old))
 }
 
 fn copy_dir_all(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> io::Result<()> {
