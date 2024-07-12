@@ -3,9 +3,7 @@ use std::io;
 use std::path::{Path, PathBuf};
 use std::process;
 
-use dirs;
 use env_logger::Builder;
-use exitcode;
 use ini::Ini;
 use log::{error, info};
 use structopt::StructOpt;
@@ -44,7 +42,7 @@ struct AWSCredentials {
     secret_key: String,
 }
 
-fn switch(default: PathBuf, replace: PathBuf) -> () {
+fn switch(default: PathBuf, replace: PathBuf) {
     info!("Retrieving credentials from {}", default.to_str().unwrap());
     let credentials = get_credentials();
     info!("Copying {} to {}", replace.to_str().unwrap(), default.to_str().unwrap());
