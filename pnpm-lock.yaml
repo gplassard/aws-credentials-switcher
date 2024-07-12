@@ -9,16 +9,16 @@ importers:
   .:
     devDependencies:
       '@gplassard/projen-extensions':
-        specifier: ^0.0.105
-        version: 0.0.105
+        specifier: ^0.0.107
+        version: 0.0.107
       projen:
         specifier: ^0.84.4
         version: 0.84.4(constructs@10.3.0)
 
 packages:
 
-  '@gplassard/projen-extensions@0.0.105':
-    resolution: {integrity: sha512-y1iSyvo6KsX7pKRMBxyVDX3zTn+9AYb9c+MWXWoRVMrdKpAHHBn9KKXekaThTJ0U8HOIXcfu3JQ18AP+UIoUhA==, tarball: https://npm.pkg.github.com/download/@gplassard/projen-extensions/0.0.105/b28d25ca1d25def6c20b46adcc60ce99cca70ad6}
+  '@gplassard/projen-extensions@0.0.107':
+    resolution: {integrity: sha512-au5Rz9nhwIzY8Ztl+obij1rOn5/dtBZcOQdOud1AwWjYuZxdLTqCYcjcyu3NHwi/jq6VaLVjsef2vRizw0zW2w==, tarball: https://npm.pkg.github.com/download/@gplassard/projen-extensions/0.0.107/32566d09105b219a5dbb01801e0553e308d3b409}
 
   constructs@10.3.0:
     resolution: {integrity: sha512-vbK8i3rIb/xwZxSpTjz3SagHn1qq9BChLEfy5Hf6fB3/2eFbrwt2n9kHwQcS0CPTRBesreeAcsJfMq2229FnbQ==}
@@ -68,7 +68,7 @@ packages:
 
 snapshots:
 
-  '@gplassard/projen-extensions@0.0.105':
+  '@gplassard/projen-extensions@0.0.107':
     dependencies:
       constructs: 10.3.0
       projen: 0.82.8(constructs@10.3.0)
