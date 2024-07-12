@@ -64,7 +64,6 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload release assets (windows)
-        id: upload-release-assets
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -74,7 +73,6 @@ jobs:
           asset_name: aws-credentials-switcher-windows.zip
           asset_content_type: application/zip
       - name: Upload release assets (macos)
-        id: upload-release-assets
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -84,7 +82,6 @@ jobs:
           asset_name: aws-credentials-switcher-macos.zip
           asset_content_type: application/zip
       - name: Upload release assets (linux)
-        id: upload-release-assets
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
