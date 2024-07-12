@@ -69,7 +69,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: aws-credentials-switcher/aws-credentials-switcher/Windows-binaries.zip
+          asset_path: Windows-binaries.zip
           asset_name: aws-credentials-switcher-windows.zip
           asset_content_type: application/zip
       - name: Upload release assets (macos)
@@ -78,7 +78,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: aws-credentials-switcher/aws-credentials-switcher/macOS-binaries.zip
+          asset_path: macOS-binaries.zip
           asset_name: aws-credentials-switcher-macos.zip
           asset_content_type: application/zip
       - name: Upload release assets (linux)
@@ -87,6 +87,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: aws-credentials-switcher/aws-credentials-switcher/Linux-binaries.zip
+          asset_path: Linux-binaries.zip
           asset_name: aws-credentials-switcher-linux.zip
           asset_content_type: application/zip
