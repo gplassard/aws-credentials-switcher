@@ -44,7 +44,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ runner.os}}-binaries.zip
+          name: ${{ runner.os}}-binaries
           path: target/release/
   release:
     needs: build
@@ -69,24 +69,24 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /home/runner/work/aws-credentials-switcher/aws-credentials-switcher/Windows-binaries.zip
-          asset_name: aws-credentials-switcher-windows.zip
-          asset_content_type: application/zip
+          asset_path: Windows-binaries/aws-credentials-switcher.exe
+          asset_name: aws-credentials-switcher-windows.exe
+          asset_content_type: application/octet-stream
       - name: Upload release assets (macos)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /home/runner/work/aws-credentials-switcher/aws-credentials-switcher/macOS-binaries.zip
-          asset_name: aws-credentials-switcher-macos.zip
-          asset_content_type: application/zip
+          asset_path: macOS-binaries/aws-credentials-switcher
+          asset_name: aws-credentials-switcher-macos
+          asset_content_type: application/octet-stream
       - name: Upload release assets (linux)
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /home/runner/work/aws-credentials-switcher/aws-credentials-switcher/Linux-binaries.zip
+          asset_path: Linux-binaries/aws-credentials-switcher
           asset_name: aws-credentials-switcher-linux.zip
-          asset_content_type: application/zip
+          asset_content_type: application/octet-stream
