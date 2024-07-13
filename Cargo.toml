@@ -2,7 +2,7 @@
 
 [package]
 authors = [ "Gabriel Plassard <gabriel.plassard@gmail.com>" ]
-version = "1.9.11"
+version = "1.9.12"
 edition = "2021"
 name = "aws-credentials-switcher"
 
