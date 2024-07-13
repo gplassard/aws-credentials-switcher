@@ -44,7 +44,7 @@ dependencies = [
 
 [[package]]
 name = "aws-credentials-switcher"
-version = "1.9.9"
+version = "1.9.10"
 dependencies = [
  "dirs",
  "env_logger",
