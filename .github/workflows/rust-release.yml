@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-       include:
+        include:
           - build: linux
             os: ubuntu-latest
             target: x86_64-unknown-linux-musl
@@ -45,22 +45,22 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cargo/registry
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ matrix.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
       - name: Cache cargo index
         uses: actions/cache@v4
         with:
           path: ~/.cargo/git
-          key: ${{ runner.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ matrix.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
       - name: Cache cargo build
         uses: actions/cache@v4
         with:
           path: target
-          key: ${{ runner.target }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ matrix.target }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ runner.target }}-binaries
-          path: target/${{ matrix.target }}/release/aws-credentials-switcher${{ runner.suffix }}
+          name: ${{ matrix.target }}-binaries
+          path: target/${{ matrix.target }}/release/aws-credentials-switcher${{ matrix.suffix }}
   release:
     needs: build
     runs-on: ubuntu-latest
