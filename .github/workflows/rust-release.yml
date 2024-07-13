@@ -17,17 +17,15 @@ jobs:
           - build: linux
             os: ubuntu-latest
             target: x86_64-unknown-linux-musl
-            suffix: ''
-
+            suffix: ""
           - build: macos
             os: macos-latest
             target: x86_64-apple-darwin
-            suffix: ''
-
+            suffix: ""
           - build: windows-gnu
             os: windows-latest
             target: x86_64-pc-windows-gnu
-            suffix: '.exe'
+            suffix: .exe
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,12 +43,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cargo/registry
-          key: ${{ matrix.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ matrix.target }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
       - name: Cache cargo index
         uses: actions/cache@v4
         with:
           path: ~/.cargo/git
-          key: ${{ matrix.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ matrix.target }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
       - name: Cache cargo build
         uses: actions/cache@v4
         with:
@@ -78,16 +76,18 @@ jobs:
           body: Release ${{ github.ref }}
           draft: false
           prerelease: false
-      - name: Upload release assets (windows)
+      - name: Upload release assets (x86_64-unknown-linux-musl)
+        id: upload-release-assets-x86_64-unknown-linux-musl
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: x86_64-pc-windows-gnu-binaries/aws-credentials-switcher.exe
-          asset_name: aws-credentials-switcher-x86_64-pc-windows-gnu.exe
+          asset_path: x86_64-unknown-linux-musl-binaries/aws-credentials-switcher
+          asset_name: aws-credentials-switcher-x86_64-unknown-linux-musl
           asset_content_type: application/octet-stream
-      - name: Upload release assets (macos)
+      - name: Upload release assets (x86_64-apple-darwin)
+        id: upload-release-assets-x86_64-apple-darwin
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -96,12 +96,13 @@ jobs:
           asset_path: x86_64-apple-darwin-binaries/aws-credentials-switcher
           asset_name: aws-credentials-switcher-x86_64-apple-darwin
           asset_content_type: application/octet-stream
-      - name: Upload release assets (linux)
+      - name: Upload release assets (x86_64-pc-windows-gnu)
+        id: upload-release-assets-x86_64-pc-windows-gnu
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: x86_64-unknown-linux-musl-binaries/aws-credentials-switcher
-          asset_name: aws-credentials-switcher-x86_64-unknown-linux-musl
+          asset_path: x86_64-pc-windows-gnu-binaries/aws-credentials-switcher.exe
+          asset_name: aws-credentials-switcher-x86_64-pc-windows-gnu.exe
           asset_content_type: application/octet-stream
