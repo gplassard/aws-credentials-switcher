@@ -10,7 +10,7 @@
     "projen": "projen"
   },
   "devDependencies": {
-    "@gplassard/projen-extensions": "^0.0.107",
+    "@gplassard/projen-extensions": "^0.0.109",
     "projen": "^0.84.4"
   }
 }
