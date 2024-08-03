@@ -16,7 +16,7 @@ jobs:
         include:
           - build: linux
             os: ubuntu-latest
-            target: x86_64-unknown-linux-musl
+            target: x86_64-unknown-linux-gnu
             suffix: ""
           - build: macos
             os: macos-latest
@@ -62,6 +62,8 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
@@ -76,15 +78,15 @@ jobs:
           body: Release ${{ github.ref }}
           draft: false
           prerelease: false
-      - name: Upload release assets (x86_64-unknown-linux-musl)
-        id: upload-release-assets-x86_64-unknown-linux-musl
+      - name: Upload release assets (x86_64-unknown-linux-gnu)
+        id: upload-release-assets-x86_64-unknown-linux-gnu
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: x86_64-unknown-linux-musl-binaries/aws-credentials-switcher
-          asset_name: aws-credentials-switcher-x86_64-unknown-linux-musl
+          asset_path: x86_64-unknown-linux-gnu-binaries/aws-credentials-switcher
+          asset_name: aws-credentials-switcher-x86_64-unknown-linux-gnu
           asset_content_type: application/octet-stream
       - name: Upload release assets (x86_64-apple-darwin)
         id: upload-release-assets-x86_64-apple-darwin
