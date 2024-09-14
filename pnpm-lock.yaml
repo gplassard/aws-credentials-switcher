@@ -9,23 +9,26 @@ importers:
   .:
     devDependencies:
       '@gplassard/projen-extensions':
-        specifier: ^0.0.113
-        version: 0.0.113
+        specifier: ^0.0.120
+        version: 0.0.120(constructs@10.3.0)(projen@0.87.2(constructs@10.3.0))
       projen:
-        specifier: ^0.84.13
-        version: 0.84.13(constructs@10.3.0)
+        specifier: ^0.87.2
+        version: 0.87.2(constructs@10.3.0)
 
 packages:
 
-  '@gplassard/projen-extensions@0.0.113':
-    resolution: {integrity: sha512-EDApkxL+x6D3O5dox48omVM36ij4WSsItwyngRbcwzAkC48M7klOD4jxZDFJhsREO2GEU6z6gJ4pdIPPU0xpNw==, tarball: https://npm.pkg.github.com/download/@gplassard/projen-extensions/0.0.113/58e71b48452b2fa03f0191e0f687bbb1ed1f8c29}
+  '@gplassard/projen-extensions@0.0.120':
+    resolution: {integrity: sha512-nBMkPQdb/61I6M0uOEUc2gkcYHaquML1NEg/oiA6iqzO91fB9WhFsxCzgmcoiprUEbEtB07Gp1zQ5p81SzGolw==, tarball: https://npm.pkg.github.com/download/@gplassard/projen-extensions/0.0.120/972adfda5cd18ca94df08de54fa1f03a80ab0857}
+    peerDependencies:
+      constructs: ^10.3.0
+      projen: ^0.87.2
 
   constructs@10.3.0:
     resolution: {integrity: sha512-vbK8i3rIb/xwZxSpTjz3SagHn1qq9BChLEfy5Hf6fB3/2eFbrwt2n9kHwQcS0CPTRBesreeAcsJfMq2229FnbQ==}
     engines: {node: '>= 16.14.0'}
 
-  projen@0.84.13:
-    resolution: {integrity: sha512-N9XocN5wcYg5ZeyQwr76sxRPncdXdkIrlOJhISFtI9jMZxEU6D+ms/oKLCc85+KwJH9qbhrR/+5h6Nys54n0kA==}
+  projen@0.87.2:
+    resolution: {integrity: sha512-O9qglXmlfuWd58xl1iTRvwIRzb5kNU/DS1kTYYIdQQlwcmlMG6+q0HbdhkkSnkwdqorqflQK1VpVeKF1vC//zg==}
     engines: {node: '>= 16.0.0'}
     hasBin: true
     peerDependencies:
@@ -47,13 +50,13 @@ packages:
 
 snapshots:
 
-  '@gplassard/projen-extensions@0.0.113':
+  '@gplassard/projen-extensions@0.0.120(constructs@10.3.0)(projen@0.87.2(constructs@10.3.0))':
     dependencies:
       constructs: 10.3.0
-      projen: 0.84.13(constructs@10.3.0)
+      projen: 0.87.2(constructs@10.3.0)
 
   constructs@10.3.0: {}
 
-  projen@0.84.13(constructs@10.3.0):
+  projen@0.87.2(constructs@10.3.0):
     dependencies:
       constructs: 10.3.0
